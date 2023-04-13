@@ -1,0 +1,159 @@
+
+##################################################################
+# Template file containing the logic to home on a limit switch, and
+# several other records to support this.
+# 
+# This template is included in motorHome.template, but can be 
+# instantiated seperatly along with motorHomeCommon.template.
+#
+# Required macros are defined at the top of motorHome.template
+#
+# Matt Pearson
+# ORNL
+# 
+# March 2019
+#
+##################################################################
+
+##################################################################
+# Sequence to home on a high or low limit switch
+
+record(sseq, "$(M)$(H)HomeLim") {
+  field(WAIT1, "Wait")
+  field(WAIT2, "Wait")
+  field(WAIT3, "Wait")
+  field(WAIT4, "Wait")
+  field(WAIT5, "Wait")
+  field(WAIT6, "Wait")
+  field(WAIT7, "Wait")
+  field(WAIT8, "Wait")
+  field(WAIT9, "Wait")
+  field(WAITA, "Wait")
+  field(DLY1, "0")
+  field(DOL1, "1")
+  field(LNK1, "$(M)$(H)Status.VAL CA")
+  field(DLY2, "0")
+  field(DOL2, "1")
+  field(LNK2, "$(M)$(H)Init.PROC CA")
+  field(DLY3, "1")
+  field(DOL3, "1")
+  field(LNK3, "$(M)$(H)PMMove.PROC CA")
+  field(DLY4, "1")
+  field(DOL4, "1")
+  field(LNK4, "$(M)$(H)LimMove.PROC CA")
+  field(DLY5, "1")
+  field(DOL5, "1")
+  field(LNK5, "$(M)$(H)LimCheck.PROC CA")
+  field(DLY6, "0")
+  field(DOL6, "1")
+  field(LNK6, "$(M)$(H)HomeLimBO.PROC CA")
+  field(DLY7, "0")
+  field(DOL7, "$(M)$(H)Speed.VAL")
+  field(LNK7, "$(M).VELO CA")
+  field(DLY8, "1")
+  field(DOL8, "1")
+  field(LNK8, "$(M)$(H)LimMove.PROC CA")
+  field(DLY9, "0")
+  field(DOL9, "1")
+  field(LNK9, "$(M)$(H)HomeLim2.PROC CA")
+  field(FLNK, "$(M)$(H)RestoreNormal")
+}
+record(sseq, "$(M)$(H)HomeLim2") {
+  field(WAIT1, "Wait")
+  field(WAIT2, "Wait")
+  field(WAIT3, "Wait")
+  field(WAIT4, "Wait")
+  field(WAIT5, "Wait")
+  field(DLY1, "1")
+  field(DOL1, "1")
+  field(LNK1, "$(M)$(H)LimCheck.PROC CA")
+  field(DLY2, "0")
+  field(DOL2, "1")
+  field(LNK2, "$(M)$(H)RestoreSpeed.PROC CA")
+  field(DLY3, "1")
+  field(DOL3, "1")
+  field(LNK3, "$(M)$(H)PS.PROC CA")
+  field(DLY4, "1")
+  field(DOL4, "1")
+  field(LNK4, "$(M)$(H)MBMove.PROC CA")
+  field(DLY5, "0")
+  field(DOL5, "0")
+  field(LNK5, "$(M)$(H)Status.VAL CA")
+}
+
+# ///
+# /// Backoff the limit switch.
+# /// This could be done in one calcout, but seperated
+# /// it's slightly easier to understand.
+# ///
+record(calcout, "$(M)$(H)HomeLimBO") {
+  field(INPA, "$(M)$(H)LimType")
+  field(INPB, "$(M)$(H)DirReverse")
+  field(CALC, "B=1?(A?A:A+2):A+1")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M)$(H)HomeLimBOSeq.SELN PP")
+}
+record(seq, "$(M)$(H)HomeLimBOSeq") {
+  field(SELM, "Specified")
+  field(DOL1, "1")
+  field(DOL2, "1")
+  field(LNK1, "$(M)$(H)HomeLimBOLL.PROC PP")
+  field(LNK2, "$(M)$(H)HomeLimBOHL.PROC PP")
+}
+# ///
+# /// Backoff the high limit
+# ///
+record(calcout, "$(M)$(H)HomeLimBOHL") {
+  field(INPA, "$(M)$(H)HomeLimBODist")
+  field(INPB, "$(M).DRBV")
+  field(CALC, "B-A")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M).DVAL PP")
+}
+# ///
+# /// Backoff the low limit
+# ///
+record(calcout, "$(M)$(H)HomeLimBOLL") {
+  field(INPA, "$(M)$(H)HomeLimBODist")
+  field(INPB, "$(M).DRBV")
+  field(CALC, "B+A")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M).DVAL PP")
+}
+# ///
+# /// Backoff Distance (defaults to 1)
+# ///
+record(ao, "$(M)$(H)HomeLimBODist") {
+  field(PINI, "YES")
+  field(VAL, "$(H_BACKOFF=1)")
+  field(EGU, "$(H_EGU=mm)")
+  field(PREC, "$(H_PREC=4)")
+  field(ASG, "$(H_ASG=EXPERT)")
+  info(autosaveFields, "VAL")
+  info(archive, "Monitor, 00:00:01, VAL")
+}
+
+# ///
+# /// Abort both limit sseq records.
+# /// If we are in the middle of setting position, then 
+# /// we don't abort that. 
+# ///
+record(calcout, "$(M)$(H)HomeLimAbort") {
+  field(INPA, "$(M)$(H)HomeLim.BUSY")
+  field(CALC, "A=1")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M)$(H)HomeLim.ABORT PP")
+  field(FLNK, "$(M)$(H)HomeLim2Abort")
+}
+record(calcout, "$(M)$(H)HomeLim2Abort") {
+  field(INPA, "$(M)$(H)HomeLim2.BUSY")
+  field(CALC, "A=1")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M)$(H)HomeLim2.ABORT PP")
+}
+

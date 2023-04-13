@@ -1,0 +1,162 @@
+
+##################################################################
+# Template file containing the logic to home using the motor record
+# HOMF or HOMR interface.
+#
+# This template is included in motorHome.template, but can be 
+# instantiated seperately along with motorHomeCommon.template.
+#
+# Required macros are defined at the top of motorHome.template
+#
+# Matt Pearson
+# ORNL
+# 
+# March 2019
+#
+##################################################################
+
+# ///
+# /// Record to run the motor record home routine (HOMR or HOMF)
+# /// If we don't see the homed bit on, we abort.
+# ///
+record(sseq, "$(M)$(H)HomeMR") {
+  field(WAIT1, "Wait")
+  field(WAIT2, "Wait")
+  field(WAIT3, "Wait")
+  field(WAIT4, "Wait")
+  field(WAIT5, "Wait")
+  field(WAIT6, "Wait")
+  field(WAIT7, "Wait")
+  field(WAIT8, "Wait")
+  field(WAIT9, "Wait")
+  field(WAITA, "Wait")
+  field(DLY1, "0")
+  field(DOL1, "1")
+  field(LNK1, "$(M)$(H)Status.VAL CA")
+  field(DLY2, "0")
+  field(DOL2, "1")
+  field(LNK2, "$(M)$(H)Init.PROC CA")
+  field(DLY3, "1")
+  field(DOL3, "1")
+  field(LNK3, "$(M)$(H)PMMove.PROC CA")
+  field(DLY4, "1")
+  field(DOL4, "1")
+  field(LNK4, "$(M)$(H)HomeMRLim.PROC CA")
+  field(DLY5, "1")
+  field(DOL5, "1")
+  field(LNK5, "$(M)$(H)HomeMRLimCheck.PROC CA")
+  field(DLY6, "1")
+  field(DOL6, "1")
+  field(LNK6, "$(M)$(H)HomeMRRun.PROC CA")
+  field(DLY7, "2")
+  field(DOL7, "1")
+  field(LNK7, "$(M)$(H)HomeMRCheck.PROC CA")
+  field(DLY8, "1")
+  field(DOL8, "1")
+  field(LNK8, "$(M)$(H)PS.PROC CA")
+  field(DLY9, "1")
+  field(DOL9, "1")
+  field(LNK9, "$(M)$(H)MBMove.PROC CA")
+  field(DLYA, "0")
+  field(DOLA, "0")
+  field(LNKA, "$(M)$(H)Status.VAL CA")
+  field(FLNK, "$(M)$(H)RestoreNormal")
+}
+
+# ///
+# /// Optional move to limit before running the motor record home
+# ///
+record(bo, "$(M)$(H)HomeMRLimOpt") {
+  field(PINI, "YES")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(ASG, "$(H_ASG=EXPERT)")
+  info(autosaveFields, "VAL")
+  info(archive, "Monitor, 00:00:01, VAL")
+}
+record(calcout, "$(M)$(H)HomeMRLim") {
+   field(INPA, "$(M)$(H)HomeMRLimOpt MS")
+   field(CALC, "A=1")
+   field(OOPT, "When Non-zero")
+   field(DOPT, "Use CALC")
+   field(OUT, "$(M)$(H)LimMove.PROC PP")
+}
+record(calcout, "$(M)$(H)HomeMRLimCheck") {
+   field(INPA, "$(M)$(H)HomeMRLimOpt MS")
+   field(CALC, "A=1")
+   field(OOPT, "When Non-zero")
+   field(DOPT, "Use CALC")
+   field(OUT, "$(M)$(H)LimCheck.PROC PP")
+}
+
+# ///
+# /// Abort the sseq if we did not see a successful home
+# ///
+record(calcout, "$(M)$(H)HomeMRCheck") {
+   field(INPA, "$(M)$(H)HomeMRStat MS")
+   field(CALC, "(A!=1)?1:0")
+   field(OOPT, "When Non-zero")
+   field(DOPT, "Use CALC")
+   field(OUT, "$(M)$(H)Error.PROC PP")
+}
+
+# ///
+# /// This selects which direction to go (only relevant for the home switch method)
+# ///
+record(bo, "$(M)$(H)HomeMRDir") {
+  field(PINI, "YES")
+  field(ZNAM, "Positive")
+  field(ONAM, "Negative")
+  field(ASG, "$(H_ASG=EXPERT)")
+  info(autosaveFields, "VAL")
+  info(archive, "Monitor, 00:00:01, VAL")
+}
+
+# ///
+# /// Run the controller/driver home sequence (either the HOM0 or HOM1)
+# ///
+record(calcout, "$(M)$(H)HomeMRRun") {
+   field(INPA, "$(M)$(H)HomeMRDir")
+   field(CALC, "A=0")
+   field(OOPT, "When Non-zero")
+   field(DOPT, "Use CALC")
+   field(OUT, "$(M).HOMF PP")
+   field(FLNK, "$(M)$(H)HomeMRRun2")
+}
+record(calcout, "$(M)$(H)HomeMRRun2") {
+   field(INPA, "$(M)$(H)HomeMRDir")
+   field(CALC, "A=1")
+   field(OOPT, "When Non-zero")
+   field(DOPT, "Use CALC")
+   field(OUT, "$(M).HOMR PP")
+}
+
+# ///
+# /// Extract the controller/driver home status into a seperate record whenever MSTA changes 
+# ///
+record(calcout, "$(M)$(H)HomeMRStatCalc") {
+  field(PINI, "YES")
+  field(INPA, "$(M).MSTA CP MS")
+  field(CALC, "(A>>14)&0x1")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M)$(H)HomeMRStat PP")
+}
+record(bo, "$(M)$(H)HomeMRStat") {
+  field(ZNAM, "Not Homed")
+  field(ONAM, "Homed")
+}
+
+# ///
+# /// Abort the sseq record.
+# ///
+record(calcout, "$(M)$(H)HomeMRAbort") {
+  field(INPA, "$(M)$(H)HomeMR.BUSY")
+  field(CALC, "A=1")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M)$(H)HomeMR.ABORT PP")
+}
+
+
+

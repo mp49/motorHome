@@ -1,0 +1,141 @@
+##################################################################
+#
+# Template to provide a set of records to aid in homing
+# any motor record axis. Several homing methods (H_TYPE) are supported:
+#
+# 1) Custom home routine (see HomeCustom below)
+# 2) Home by using the motor record HOMF/HOMR
+# 3) Home to a low or high limit switch (direction is defined by H_LIM_DIR)
+# 4) Home by just setting the home position at the current position
+# 5) Home by just setting the motor record offset OFF
+#
+# Method 2) above covers the situations where the controller or driver 
+# takes care of the homing, for example using a home switch or encoder 
+# reference mark.
+# 
+# Method 5) should be used when we are using absolute encoders. In case
+# the controller or driver doesn't support offseting the position, the only
+# way to change the position is to use the OFF field.
+# 
+# This template file instantiates all the common records, and all the 
+# pre-defined sequences. It also defines a top level 'Home' record
+# which then links to the choosen sequence, which provides a common
+# interface for the different sequences. 
+#
+# It would also be possible to just define the sequence that you want 
+# to use by using the motorRecordCommon.template and one of the pre-defined 
+# sequences. In this case you would have to use the PV name specific for
+# the pre-defined sequence that you choose, or define your own top level 'Home' record.
+#
+# Macros:
+# M -          Base PV name (should match the motor record)
+# H -          Second part of the PV names (eg. :Home: or simply :H:)
+# H_TYPE -     Home type (see $(M)$(H)Type record in motorRecordCommon.template). Options are:
+#                0 - None (no home routine)
+#                1 - Custom home routine
+#                2 - Motor record (HOMF/HOMR) based home routine
+#                3 - Limit switch routine (pos or neg, defined by H_LIM_DIR below)
+#                4 - Change the position to the home position (H_POS) by setting the controller position
+#                5 - Change the position to the home position (H_POS) by using the offset field 
+#                    (use this for absolute encoders)
+# H_POS -      Home position to set at end of home sequence. 
+# H_SPEED -    Home speed. This is used when approching a limit switch (after we initially found 
+#              it and have already backed off the switch)
+# H_BACKOFF -  Home backoff. The distance to move off a limit switch. The sign is important.
+# H_EGU -      Units string (default=mm)
+# H_PREC -     Display precision (default=4)
+# H_LIM_DIR -  Define which limit switch to move to for both the limit switch homes and the motor record homes.
+#              Default = 0. 0=Neg Limit, 1=Pos Limit
+# H_ASG -      The ASG level to use for the records that configure the home routines (default=EXPERT)
+# H_ASG_MOVE - The ASG level to use for the move records (the main Home record included) (default=)
+#
+# Matt Pearson
+# ORNL
+# 
+# March 2019
+#
+##################################################################
+
+##################################################################
+# Include the common records
+
+include "motorHomeCommon.template"
+
+##################################################################
+# Include the home sequences
+
+include "motorHomeLimit.template"
+
+include "motorHomeMotorRecord.template"
+
+include "motorHomePosSet.template"
+
+include "motorHomeOffSet.template"
+
+##################################################################
+# Include a high level Home record that can select which sequence 
+# to use based on what was set for the H_TYPE macro (which is put 
+# into the $(M)$(H)Type record).
+
+# ///
+# /// Write a 1 to this to begin the home sequence. This top level
+# /// interface safeguards against running more than one sequence 
+# /// at any one time.
+# ///
+record(calcout, "$(M)$(H)Home") {
+  field(DESC, "Start Home Seq")
+  field(VAL, "1")
+  field(FLNK, "$(M)$(H)HomeCalc")
+  field(ASG, "$(H_ASG_MOVE=)")
+}
+record(calcout, "$(M)$(H)HomeCalc") {
+  field(INPA, "$(M)$(H)Type")
+  field(INPB, "$(M)$(H)Status")
+  field(CALC, "B!=1?A:0")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(M)$(H)HomeSeq.SELN PP")
+}
+record(seq, "$(M)$(H)HomeSeq") {
+  field(SELM, "Specified")
+  field(DOL1, "1")
+  field(DOL2, "1")
+  field(DOL3, "1")
+  field(DOL4, "1")
+  field(DOL5, "1")
+  field(LNK1, "$(M)$(H)HomeCustom.PROC PP")
+  field(LNK2, "$(M)$(H)HomeMR.PROC PP")
+  field(LNK3, "$(M)$(H)HomeLim.PROC PP")
+  field(LNK4, "$(M)$(H)HomePosSet.PROC PP")
+  field(LNK5, "$(M)$(H)HomeOffSet.PROC PP")
+}
+
+# ///
+# /// Fill in this record (or override it) to define a custom
+# /// homing sequence for this motor. To use this sequence you would
+# /// define the H_TYPE macro to be 1. Then you can still use the above
+# /// common 'Home' interface, as well as all the support records 
+# /// defined in motorHomeCommon.template.
+# ///
+record(sseq, "$(M)$(H)HomeCustom") {
+#  field(WAIT1, "Wait")
+#  field(WAIT2, "Wait")
+#  field(WAIT3, "Wait")
+#  field(DLY1, "0")
+#  field(DOL1, "1")
+#  field(LNK1, "$(M)$(H)Status.VAL CA")
+#  field(DLY2, "1")
+#  field(DOL2, "1")
+#  field(LNK2, "$(M)$(H)DoSomething.PROC CA")
+#  field(DLY3, "0")
+#  field(DOL3, "0")
+#  field(LNK3, "$(M)$(H)Status.VAL CA")
+}
+
+# ///
+# /// Required abort record for the custom seq
+# ///
+record(bo, "$(M)$(H)HomeCustomAbort") {
+}
+
+

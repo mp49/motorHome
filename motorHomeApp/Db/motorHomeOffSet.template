@@ -1,0 +1,56 @@
+
+##################################################################
+# Template file containing the logic to home by simply setting the 
+# offset so that the position is what we want. 
+#
+# This sequence should be used for absolute encoders.
+# 
+# This template is included in motorHome.template, but can be 
+# instantiated seperatly along with motorHomeCommon.template.
+#
+# Required macros are defined at the top of motorHome.template
+#
+# Matt Pearson
+# ORNL
+# 
+# March 2019
+#
+##################################################################
+
+##################################################################
+# Sequence to home on a high or low limit switch
+
+record(sseq, "$(M)$(H)HomeOffSet") {
+  field(WAIT1, "Wait")
+  field(WAIT2, "Wait")
+  field(WAIT3, "Wait")
+  field(DLY1, "0")
+  field(DOL1, "1")
+  field(LNK1, "$(M)$(H)Status.VAL CA")
+  field(DLY2, "1")
+  field(DOL2, "1")
+  field(LNK2, "$(M)$(H)OffSetCalc.PROC CA")
+  field(DLY3, "0")
+  field(DOL3, "0")
+  field(LNK3, "$(M)$(H)Status.VAL CA")
+}
+
+# ///
+# /// Nothing to abort for this sseq
+# ///
+record(bo, "$(M)$(H)HomeOffSetAbort") {
+}
+
+# ///
+# /// Calculate what the offset should be
+# ///
+record(calcout, "$(M)$(H)OffSetCalc") {
+   field(INPA, "$(M)$(H)Pos")
+   field(INPB, "$(M).DRBV")
+   field(CALC, "A-B")
+   field(OOPT, "Every Time")
+   field(DOPT, "Use CALC")
+   field(OUT, "$(M).OFF PP")
+}
+
+
