@@ -22,9 +22,6 @@
 # Build variables that are NOT used in paths should be set in
 # the CONFIG_SITE file.
 
-# EPICS_BASE should appear last so earlier modules can override stuff:
-EPICS_BASE = /home/controls/epics/base/master
-
 # Set RULES here if you want to use build rules from somewhere
 # other than EPICS_BASE:
 #RULES = $(MODULES)/build-rules
