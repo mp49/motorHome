@@ -618,7 +618,7 @@ Once the controller reports a successful home we set the position equal to the h
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
-      <pv_name>$(M):MotorPos</pv_name>
+      <pv_name>$(M)_DMotPos</pv_name>
       <x>172</x>
       <y>82</y>
       <width>115</width>
@@ -634,7 +634,7 @@ Once the controller reports a successful home we set the position equal to the h
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
-      <pv_name>$(M):EncoderPos</pv_name>
+      <pv_name>$(M)_DEncPos</pv_name>
       <x>172</x>
       <y>117</y>
       <width>115</width>
