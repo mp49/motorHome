@@ -1,0 +1,1664 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>$(M) Home Info</name>
+  <width>1000</width>
+  <height>1100</height>
+  <actions>
+  </actions>
+  <grid_step_x>5</grid_step_x>
+  <grid_step_y>5</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>Controller Based Homing Details (Expert - IDAC Staff Only)</name>
+    <x>5</x>
+    <y>130</y>
+    <width>580</width>
+    <height>855</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="Visible Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0!=2">
+          <value>false</value>
+        </exp>
+        <pv_name>$(M)$(H)Type</pv_name>
+      </rule>
+    </rules>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Instructions:
+
+'Run Home' will trigger a home search routine on the controller. If the home position is not found in one direction, and we reach a limit switch, we will generate an error. 
+
+Before homing we can optionally do a move (absolute or relative to current position), thern optionally move to a software limit.
+
+After homing we can also automatically move back to the pre-home position, or a defined position. The pre-home position is updated once we start the homing routine.
+
+The routines assume that we can reach the home position within the current software limits, so these may have to be widened using the options above.
+
+Once the controller reports a successful home we set the position equal to the home position.
+</text>
+      <x>22</x>
+      <y>487</y>
+      <width>499</width>
+      <height>319</height>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Home Switch Search Direction</text>
+      <x>2</x>
+      <y>127</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Homed Status</text>
+      <x>2</x>
+      <y>52</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)$(H)HomeMRStat</pv_name>
+      <x>232</x>
+      <y>52</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Homing Raw High Limit</text>
+      <x>2</x>
+      <y>392</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Homing Raw Low Limit</text>
+      <x>2</x>
+      <y>427</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_17</name>
+      <text>Auto Widen Limits</text>
+      <x>2</x>
+      <y>357</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_8</name>
+      <pv_name>$(M).DHLM</pv_name>
+      <x>327</x>
+      <y>392</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_9</name>
+      <pv_name>$(M).DLLM</pv_name>
+      <x>327</x>
+      <y>427</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Current Limits</text>
+      <x>327</x>
+      <y>362</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_10</name>
+      <pv_name>$(M)$(H)LimCtlStoreH</pv_name>
+      <x>422</x>
+      <y>392</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>$(M)$(H)LimCtlStoreL</pv_name>
+      <x>422</x>
+      <y>427</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_19</name>
+      <text>Saved Limits</text>
+      <x>422</x>
+      <y>362</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_12</name>
+      <text>Auto Post-Home Move</text>
+      <x>2</x>
+      <y>282</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_1</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Move</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)MBMovePos.PROC</pv_name>
+      <x>327</x>
+      <y>317</y>
+      <width>90</width>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_16</name>
+      <text>Post-Home Move To</text>
+      <x>2</x>
+      <y>317</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Pre Move To Software Limit</text>
+      <x>2</x>
+      <y>242</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_7</name>
+      <pv_name>$(M)$(H)LimType</pv_name>
+      <x>327</x>
+      <y>242</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_15</name>
+      <text>Auto Pre-Home Move</text>
+      <x>2</x>
+      <y>167</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_14</name>
+      <text>Pre-Home Move To</text>
+      <x>2</x>
+      <y>202</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Saved Pre-Home Position</text>
+      <x>2</x>
+      <y>87</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_5</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Move</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)PMMoveMan.PROC</pv_name>
+      <x>327</x>
+      <y>202</y>
+      <width>90</width>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_4</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Move</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)MBMoveStored.PROC</pv_name>
+      <x>327</x>
+      <y>87</y>
+      <width>90</width>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_7</name>
+      <pv_name>$(M)$(H)MBStored</pv_name>
+      <x>232</x>
+      <y>87</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_3</name>
+      <pv_name>$(M)$(H)HomeMRDir</pv_name>
+      <x>232</x>
+      <y>127</y>
+      <width>185</width>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_4</name>
+      <pv_name>$(M)$(H)PMCtl</pv_name>
+      <x>232</x>
+      <y>167</y>
+      <width>185</width>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_8</name>
+      <pv_name>$(M)$(H)PMPos</pv_name>
+      <x>232</x>
+      <y>202</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_5</name>
+      <pv_name>$(M)$(H)HomeMRLimOpt</pv_name>
+      <x>232</x>
+      <y>242</y>
+      <width>90</width>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_6</name>
+      <pv_name>$(M)$(H)MBCtl</pv_name>
+      <x>232</x>
+      <y>282</y>
+      <width>185</width>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_9</name>
+      <pv_name>$(M)$(H)MBPos</pv_name>
+      <x>232</x>
+      <y>317</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_7</name>
+      <pv_name>$(M)$(H)LimCtl</pv_name>
+      <x>232</x>
+      <y>357</y>
+      <width>90</width>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_10</name>
+      <pv_name>$(M)$(H)LimCtlH</pv_name>
+      <x>232</x>
+      <y>392</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_11</name>
+      <pv_name>$(M)$(H)LimCtlL</pv_name>
+      <x>232</x>
+      <y>427</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Home Position</text>
+      <x>2</x>
+      <y>12</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry</name>
+      <pv_name>$(M)$(H)Pos</pv_name>
+      <x>232</x>
+      <y>12</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Current Positions, Offsets &amp; Limits</name>
+    <x>585</x>
+    <y>5</y>
+    <width>380</width>
+    <height>335</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>$(M).OFF</pv_name>
+      <x>172</x>
+      <y>47</y>
+      <width>115</width>
+      <height>30</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>User Offset (OFF)</text>
+      <x>2</x>
+      <y>47</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_3</name>
+      <pv_name>$(M).RBV</pv_name>
+      <x>172</x>
+      <y>12</y>
+      <width>115</width>
+      <height>30</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>User Position (RBV)</text>
+      <x>2</x>
+      <y>12</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_4</name>
+      <pv_name>$(M):MotorPos</pv_name>
+      <x>172</x>
+      <y>82</y>
+      <width>115</width>
+      <height>30</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_5</name>
+      <pv_name>$(M):EncoderPos</pv_name>
+      <x>172</x>
+      <y>117</y>
+      <width>115</width>
+      <height>30</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Motor Position</text>
+      <x>2</x>
+      <y>82</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>Encoder Position</text>
+      <x>2</x>
+      <y>117</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)$(H)PSChange</pv_name>
+      <x>172</x>
+      <y>152</y>
+      <width>115</width>
+      <height>30</height>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Change After Home</text>
+      <x>2</x>
+      <y>152</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_10</name>
+      <text>Raw High Limit (RHLS)</text>
+      <x>2</x>
+      <y>187</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED_2</name>
+      <pv_name>$(M).RHLS</pv_name>
+      <bit>0</bit>
+      <x>172</x>
+      <y>192</y>
+      <width>22</width>
+      <height>22</height>
+      <on_color>
+        <color name="Major" red="255" green="0" blue="0">
+        </color>
+      </on_color>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_11</name>
+      <text>Raw Low Limit (RLLS)</text>
+      <x>2</x>
+      <y>222</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED_1</name>
+      <pv_name>$(M).RLLS</pv_name>
+      <bit>0</bit>
+      <x>172</x>
+      <y>227</y>
+      <width>22</width>
+      <height>22</height>
+      <on_color>
+        <color name="Major" red="255" green="0" blue="0">
+        </color>
+      </on_color>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_11</name>
+      <text>Limit Violation (LVIO)</text>
+      <x>2</x>
+      <y>257</y>
+      <width>165</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED_1</name>
+      <pv_name>$(M).LVIO</pv_name>
+      <bit>0</bit>
+      <x>172</x>
+      <y>262</y>
+      <width>22</width>
+      <height>22</height>
+      <on_color>
+        <color name="Major" red="255" green="0" blue="0">
+        </color>
+      </on_color>
+      <line_color>
+        <color red="150" green="150" blue="150">
+        </color>
+      </line_color>
+      <actions>
+      </actions>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Home Sequence Details</name>
+    <x>5</x>
+    <y>130</y>
+    <width>580</width>
+    <height>265</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="Visible Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0!=5">
+          <value>false</value>
+        </exp>
+        <pv_name>$(M)$(H)Type</pv_name>
+      </rule>
+    </rules>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pressing the above 'Start Homing' button will set the motor offset so that current position will equal the home position.
+
+This is used to set the position when we are using absolute encoders, or if we just want to recalibrate using the offset.
+</text>
+      <x>12</x>
+      <y>72</y>
+      <width>296</width>
+      <height>131</height>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_20</name>
+      <text>Home Position</text>
+      <x>27</x>
+      <y>22</y>
+      <width>115</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_13</name>
+      <pv_name>$(M)$(H)Pos</pv_name>
+      <x>147</x>
+      <y>22</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Limit Switch Home Sequence Details (Expert - IDAC Staff Only)</name>
+    <x>5</x>
+    <y>130</y>
+    <width>580</width>
+    <height>930</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="Visibility Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0!=3">
+          <value>false</value>
+        </exp>
+        <pv_name>$(M)$(H)Type</pv_name>
+      </rule>
+    </rules>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Homing Raw High Limit</text>
+      <x>2</x>
+      <y>447</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Homing Raw Low Limit</text>
+      <x>2</x>
+      <y>482</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>NOTE: The direction is reversed for this axis. When homing to the high limit switch, it will move to the low software limit, and visa-versa.</text>
+      <x>332</x>
+      <y>107</y>
+      <width>201</width>
+      <height>95</height>
+      <vertical_alignment>2</vertical_alignment>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Visible Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0==0">
+            <value>false</value>
+          </exp>
+          <pv_name>$(M)$(H)DirReverse</pv_name>
+        </rule>
+      </rules>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Auto Widen Limits</text>
+      <x>2</x>
+      <y>412</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M).DHLM</pv_name>
+      <x>327</x>
+      <y>447</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M).DLLM</pv_name>
+      <x>327</x>
+      <y>482</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Current Limits</text>
+      <x>327</x>
+      <y>417</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)$(H)LimCtlStoreH</pv_name>
+      <x>422</x>
+      <y>447</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>$(M)$(H)LimCtlStoreL</pv_name>
+      <x>422</x>
+      <y>482</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Saved Limits</text>
+      <x>422</x>
+      <y>417</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_12</name>
+      <text>Auto Post-Home Move</text>
+      <x>2</x>
+      <y>337</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_7</name>
+      <pv_name>$(M)$(H)MBStored</pv_name>
+      <x>232</x>
+      <y>207</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Saved Pre-Home Position</text>
+      <x>2</x>
+      <y>207</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_3</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Move</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)MBMoveStored.PROC</pv_name>
+      <x>327</x>
+      <y>207</y>
+      <width>90</width>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_14</name>
+      <text>Pre-Home Move To</text>
+      <x>2</x>
+      <y>297</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_4</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Move</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)MBMovePos.PROC</pv_name>
+      <x>327</x>
+      <y>372</y>
+      <width>90</width>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_15</name>
+      <text>Auto Pre-Home Move</text>
+      <x>2</x>
+      <y>262</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_5</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Move</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)PMMoveMan.PROC</pv_name>
+      <x>327</x>
+      <y>297</y>
+      <width>90</width>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_16</name>
+      <text>Post-Home Move To</text>
+      <x>2</x>
+      <y>372</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Instructions:
+
+'Home To Low/High Limit' will trigger a home search to a limit switch. 
+
+Before homing we can optionally do a move (absolute or relative to current position).
+
+After homing we can also automatically move back to the pre-home position, or a defined position. The pre-home position is updated once we start the homing routine.
+
+The routines assume that we can reach the limit switches by driving to the current software limits, so these may have to be widened using the options above. 
+
+Once we successfully find the limit switch, we set the position equal to the home position. 
+</text>
+      <x>27</x>
+      <y>562</y>
+      <width>495</width>
+      <height>284</height>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_7</name>
+      <pv_name>$(M)$(H)LimType</pv_name>
+      <x>232</x>
+      <y>67</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Limit Switch Direction</text>
+      <x>2</x>
+      <y>67</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Limit Switch Final Approach Speed</text>
+      <x>2</x>
+      <y>137</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Visible Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0!=3">
+            <value>false</value>
+          </exp>
+          <pv_name>$(M)$(H)Type</pv_name>
+        </rule>
+      </rules>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Limit Switch Backoff Distance</text>
+      <x>2</x>
+      <y>102</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Visible Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0!=3">
+            <value>false</value>
+          </exp>
+          <pv_name>$(M)$(H)Type</pv_name>
+        </rule>
+      </rules>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Limit Switch Reversed?</text>
+      <x>2</x>
+      <y>172</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Visible Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0!=3">
+            <value>false</value>
+          </exp>
+          <pv_name>$(M)$(H)Type</pv_name>
+        </rule>
+      </rules>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)$(H)DirReverse</pv_name>
+      <x>232</x>
+      <y>172</y>
+      <width>90</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <rules>
+        <rule name="Visible Rule" prop_id="visible" out_exp="false">
+          <exp bool_exp="pv0!=3">
+            <value>false</value>
+          </exp>
+          <pv_name>$(M)$(H)Type</pv_name>
+        </rule>
+      </rules>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_1</name>
+      <pv_name>$(M)$(H)HomeLimBODist</pv_name>
+      <x>232</x>
+      <y>102</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_3</name>
+      <pv_name>$(M)$(H)Speed</pv_name>
+      <x>232</x>
+      <y>137</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box</name>
+      <pv_name>$(M)$(H)PMCtl</pv_name>
+      <x>232</x>
+      <y>262</y>
+      <width>185</width>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_4</name>
+      <pv_name>$(M)$(H)PMPos</pv_name>
+      <x>232</x>
+      <y>297</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_1</name>
+      <pv_name>$(M)$(H)MBCtl</pv_name>
+      <x>232</x>
+      <y>337</y>
+      <width>185</width>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_5</name>
+      <pv_name>$(M)$(H)MBPos</pv_name>
+      <x>232</x>
+      <y>372</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>Combo Box_2</name>
+      <pv_name>$(M)$(H)LimCtl</pv_name>
+      <x>232</x>
+      <y>412</y>
+      <width>90</width>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_6</name>
+      <pv_name>$(M)$(H)LimCtlH</pv_name>
+      <x>232</x>
+      <y>447</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_7</name>
+      <pv_name>$(M)$(H)LimCtlL</pv_name>
+      <x>232</x>
+      <y>482</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_18</name>
+      <text>Home Position</text>
+      <x>2</x>
+      <y>17</y>
+      <width>225</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_12</name>
+      <pv_name>$(M)$(H)Pos</pv_name>
+      <x>232</x>
+      <y>17</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Run Home Sequence For $(M)</name>
+    <x>5</x>
+    <y>5</y>
+    <width>580</width>
+    <height>125</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Abort</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)Abort</pv_name>
+      <x>327</x>
+      <y>12</y>
+      <width>90</width>
+      <foreground_color>
+        <color name="STOP" red="255" green="0" blue="0">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_1</name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>Start Homing</description>
+        </action>
+      </actions>
+      <pv_name>$(M)$(H)Home.PROC</pv_name>
+      <x>67</x>
+      <y>12</y>
+      <width>160</width>
+      <background_color>
+        <color name="Write_Background" red="128" green="255" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)$(H)Status</pv_name>
+      <x>232</x>
+      <y>12</y>
+      <width>90</width>
+      <height>30</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>$(M)$(H)Type</pv_name>
+      <x>232</x>
+      <y>47</y>
+      <width>185</width>
+      <height>30</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Home Sequence Type</text>
+      <x>17</x>
+      <y>47</y>
+      <width>210</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Home Sequence Details</name>
+    <x>5</x>
+    <y>130</y>
+    <width>580</width>
+    <height>175</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <rules>
+      <rule name="Visible Rule" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0!=4">
+          <value>false</value>
+        </exp>
+        <pv_name>$(M)$(H)Type</pv_name>
+      </rule>
+    </rules>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Pressing the home 'Start Homing' button will set the position to the 'Home Position'. This will change the position on the controller.
+</text>
+      <x>17</x>
+      <y>57</y>
+      <width>366</width>
+      <height>70</height>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_21</name>
+      <text>Home Position</text>
+      <x>27</x>
+      <y>12</y>
+      <width>115</width>
+      <height>30</height>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Text Entry_14</name>
+      <pv_name>$(M)$(H)Pos</pv_name>
+      <x>147</x>
+      <y>12</y>
+      <width>90</width>
+      <height>30</height>
+    </widget>
+  </widget>
+</display>
